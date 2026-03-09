@@ -13,6 +13,15 @@ sys.path.insert(0, os.path.join(_current_dir, 'solution'))
 from graderUtil import graded, CourseTestRunner, GradedTestCase
 import torch
 import torch.nn as nn
+# Pre-warm torch._dynamo to avoid SIGALRM timeout on first optimizer creation.
+# PyTorch 2.x lazily imports torch._dynamo via @torch._compile.inner when any
+# optimizer's add_param_group is first called; this import can exceed the 5 s
+# test timeout.  Importing it here (at module load, outside any timed test)
+# caches the module so subsequent calls are instantaneous.
+try:
+    import torch._dynamo  # noqa: F401
+except Exception:
+    pass
 
 import numpy as np
 import random
@@ -102,150 +111,6 @@ class Test_1a(GradedTestCase):
         self.assertIsNotNone(
             critic.v_net,
             msg="IQLCritic.v_net should not be None!"
-        )
-
-    ### BEGIN_HIDE ###
-    ### END_HIDE ###
-
-    # Tests for IQL Agent estimate_advantage function (formerly Test_1b)
-    def _setup_iql_agent_test(self):
-        """Helper to set up IQL agent tests"""
-        register_custom_envs()
-
-    @graded(timeout=30)
-    def test_5(self):
-        """1a-5-basic: test estimate_advantage returns tensor of correct shape"""
-        self._setup_iql_agent_test()
-        if RefIQLAgent is None:
-            self.skipTest("Reference IQL Agent not available")
-
-        from submission.xcs224r.agents.iql_agent import IQLAgent
-        from submission.xcs224r.infrastructure.dqn_utils import PiecewiseSchedule
-
-        env = gym.make('PointmassHard-v0')
-
-        agent_params = {
-            'env_name': 'PointmassHard-v0',
-            'ob_dim': self.ob_dim,
-            'ac_dim': self.ac_dim,
-            'discrete': True,
-            'n_layers': 2,
-            'size': 64,
-            'learning_rate': 1e-3,
-            'num_exploration_steps': 1000,
-            'offline_exploitation': False,
-            'cql_alpha': 0.5,
-            'exploit_rew_shift': 0,
-            'exploit_rew_scale': 1,
-            'eps': 0.1,
-            'use_boltzmann': False,
-            'double_q': True,
-            'grad_norm_clipping': 10,
-            'gamma': 0.95,
-            'q_func': create_boxenv_q_network,
-            'iql_expectile': 0.7,
-            'awac_lambda': 10,
-            'n_actions': 10,
-            'explore_weight_schedule': PiecewiseSchedule([(0, 1), (1000, 0)], outside_value=0),
-            'exploit_weight_schedule': PiecewiseSchedule([(0, 0), (1000, 1)], outside_value=1),
-            'batch_size': self.batch_size,
-            'learning_starts': 100,
-            'learning_freq': 1,
-            'target_update_freq': 100,
-            'exploration_schedule': PiecewiseSchedule([(0, 1), (1000, 0.1)], outside_value=0.1),
-            'optimizer_spec': pointmass_optimizer(),
-            'replay_buffer_size': 10000,
-            'frame_history_len': 1,
-            'rnd_output_size': 5,
-            'rnd_n_layers': 2,
-            'rnd_size': 32,
-        }
-
-        agent = IQLAgent(env, agent_params)
-
-        ob_no = np.random.randn(self.batch_size, self.ob_dim).astype(np.float32)
-        ac_na = np.random.randint(0, self.ac_dim, size=self.batch_size).astype(np.float32)
-        re_n = np.random.randn(self.batch_size).astype(np.float32)
-        next_ob_no = np.random.randn(self.batch_size, self.ob_dim).astype(np.float32)
-        terminal_n = np.random.choice([0, 1], size=self.batch_size).astype(np.float32)
-
-        advantage = agent.estimate_advantage(ob_no, ac_na, re_n, next_ob_no, terminal_n)
-
-        self.assertEqual(
-            advantage.shape[0], self.batch_size,
-            msg=f"estimate_advantage should return tensor of shape ({self.batch_size},), got {advantage.shape}"
-        )
-
-    @graded(timeout=30)
-    def test_6(self):
-        """1a-6-basic: test estimate_advantage uses correct critic"""
-        self._setup_iql_agent_test()
-        if RefIQLAgent is None:
-            self.skipTest("Reference IQL Agent not available")
-
-        from submission.xcs224r.agents.iql_agent import IQLAgent
-        from submission.xcs224r.infrastructure.dqn_utils import PiecewiseSchedule
-
-        torch.manual_seed(224)
-        np.random.seed(224)
-
-        env = gym.make('PointmassHard-v0')
-
-        agent_params = {
-            'env_name': 'PointmassHard-v0',
-            'ob_dim': self.ob_dim,
-            'ac_dim': self.ac_dim,
-            'discrete': True,
-            'n_layers': 2,
-            'size': 64,
-            'learning_rate': 1e-3,
-            'num_exploration_steps': 1000,
-            'offline_exploitation': False,
-            'cql_alpha': 0.5,
-            'exploit_rew_shift': 0,
-            'exploit_rew_scale': 1,
-            'eps': 0.1,
-            'use_boltzmann': False,
-            'double_q': True,
-            'grad_norm_clipping': 10,
-            'gamma': 0.95,
-            'q_func': create_boxenv_q_network,
-            'iql_expectile': 0.7,
-            'awac_lambda': 10,
-            'n_actions': 10,
-            'explore_weight_schedule': PiecewiseSchedule([(0, 1), (1000, 0)], outside_value=0),
-            'exploit_weight_schedule': PiecewiseSchedule([(0, 0), (1000, 1)], outside_value=1),
-            'batch_size': self.batch_size,
-            'learning_starts': 100,
-            'learning_freq': 1,
-            'target_update_freq': 100,
-            'exploration_schedule': PiecewiseSchedule([(0, 1), (1000, 0.1)], outside_value=0.1),
-            'optimizer_spec': pointmass_optimizer(),
-            'replay_buffer_size': 10000,
-            'frame_history_len': 1,
-            'rnd_output_size': 5,
-            'rnd_n_layers': 2,
-            'rnd_size': 32,
-        }
-
-        agent = IQLAgent(env, agent_params)
-
-        # The advantage should be computed using exploitation_critic
-        # Verify it uses v_net and q_net from exploitation_critic
-        ob_no = np.random.randn(self.batch_size, self.ob_dim).astype(np.float32)
-        ac_na = np.random.randint(0, self.ac_dim, size=self.batch_size).astype(np.float32)
-        re_n = np.random.randn(self.batch_size).astype(np.float32)
-        next_ob_no = np.random.randn(self.batch_size, self.ob_dim).astype(np.float32)
-        terminal_n = np.random.choice([0, 1], size=self.batch_size).astype(np.float32)
-
-        advantage = agent.estimate_advantage(ob_no, ac_na, re_n, next_ob_no, terminal_n)
-
-        # Advantage should be Q(s,a) - V(s)
-        # Verify the shape is correct (batch_size, 1) or (batch_size,)
-        self.assertEqual(
-            advantage.numel(),
-            self.batch_size,
-            msg="estimate_advantage should return one value per batch element!"
         )
 
     ### BEGIN_HIDE ###

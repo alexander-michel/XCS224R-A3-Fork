@@ -9,6 +9,8 @@ import gymnasium as gym
 from gymnasium import wrappers
 import numpy as np
 import torch
+import matplotlib
+
 from xcs224r.infrastructure import pytorch_util as ptu
 from xcs224r.infrastructure.wrappers import ReturnWrapper
 
@@ -69,11 +71,9 @@ class RL_Trainer(object):
             self.env = gym.make(self.params['env_name'])
             self.eval_env = gym.make(self.params['env_name'])
             
-        if not is_pointmass:
-            import matplotlib
-            matplotlib.use('Agg')
-            self.env.set_logdir(self.params['logdir'] + '/expl_')
-            self.eval_env.set_logdir(self.params['logdir'] + '/eval_')
+        matplotlib.use('Agg')
+        self.env.set_logdir(self.params['logdir'] + '/expl_')
+        self.eval_env.set_logdir(self.params['logdir'] + '/eval_')
     
         if self.params['video_log_freq'] > 0:
             self.episode_trigger = lambda episode: episode % self.params['video_log_freq'] == 0
@@ -350,7 +350,7 @@ class RL_Trainer(object):
 
         # collect eval trajectories, for logging
         print("\nCollecting data for eval...")
-        eval_paths, eval_envsteps_this_batch = utils.sample_trajectories(self.env, eval_policy, self.params['eval_batch_size'], self.params['ep_len'])
+        eval_paths, eval_envsteps_this_batch = utils.sample_trajectories(self.eval_env, eval_policy, self.params['eval_batch_size'], self.params['ep_len'])
 
         # save eval rollouts as videos in tensorboard event file
         if self.logvideo and train_video_paths != None:

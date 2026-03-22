@@ -46,13 +46,15 @@ class IQLCritic(BaseCritic):
         # HINT: see Q_net definition above, using network_initializer and use .to
         # HINT: Define using same hparams as Q_net, but adjust output dimensions
         # *** START CODE HERE ***
+        self.v_net = network_initializer(self.ob_dim,1)
+        self.v_net.to(ptu.device)
         # *** END CODE HERE ***
 
         self.v_optimizer = self.optimizer_spec.constructor(
             self.v_net.parameters(),
             **self.optimizer_spec.optim_kwargs
         )
-        
+
         self.v_learning_rate_scheduler = optim.lr_scheduler.LambdaLR(
             self.v_optimizer,
             self.optimizer_spec.learning_rate_schedule,
@@ -60,12 +62,18 @@ class IQLCritic(BaseCritic):
         self.iql_expectile = hparams['iql_expectile']
 
     def expectile_loss(self, diff):
-        pass
         # TODO: Implement the expectile loss given the difference between q and v
         # HINT: self.iql_expectile provides the \zeta value as described in the problem statement.
         # HINT: torch.where can be useful for implementing the piecewise nature of the expectile loss.
         # HINT: ptu.from_numpy may be useful
         # *** START CODE HERE ***
+        zeta = ptu.from_numpy(np.array([self.iql_expectile]))
+        cond = diff < 0
+        true_val =  1 - zeta
+        false_val =  zeta
+        weight = torch.where(cond, true_val, false_val)
+        loss = (weight*diff*diff)
+        return loss
         # *** END CODE HERE ***
 
 
@@ -81,14 +89,18 @@ class IQLCritic(BaseCritic):
         # HINT: Use self.expectile_loss as defined above, passing in the difference between the computed targets and predictions.
         # HINT: For the computed targets, you may need to detach the target q values from the computation graph, since they should not backpropagate gradients into the q_net.
         # *** START CODE HERE ***
+        qa_values = self.q_net_target(ob_no)
+        q_values = torch.gather(qa_values, 1, ac_na.type(torch.int64).unsqueeze(1)).squeeze(1)
+        diff = q_values.detach() - self.v_net(ob_no).squeeze(1)
+        value_loss = self.expectile_loss(diff).mean()
         # *** END CODE HERE ***
-        
+
 
         self.v_optimizer.zero_grad()
         value_loss.backward()
         utils.clip_grad_value_(self.v_net.parameters(), self.grad_norm_clipping)
         self.v_optimizer.step()
-        
+
         self.v_learning_rate_scheduler.step()
 
         return {'Training V Loss': ptu.to_numpy(value_loss)}
@@ -104,18 +116,24 @@ class IQLCritic(BaseCritic):
         next_ob_no = ptu.from_numpy(next_ob_no)
         reward_n = ptu.from_numpy(reward_n)
         terminal_n = ptu.from_numpy(terminal_n)
-        
-        
+
+
         # TODO: Compute loss for updating Q_net parameters
         # HINT: Note that if the next state is terminal, its target reward value needs to be adjusted.
         # HINT: target v values should be detached from the computation graph, since they should not backpropagate gradients into the v_net.
         # *** START CODE HERE ***
+        qa_values = self.q_net(ob_no)
+        q_values = torch.gather(qa_values, 1, ac_na.type(torch.int64).unsqueeze(1)).squeeze(1)
+        v_values = self.v_net(next_ob_no).squeeze(1)
+        target = reward_n + self.gamma*(1 - terminal_n)*v_values.detach()
+        errorsq = (target - q_values)**2
+        loss = errorsq.mean()
         # *** END CODE HERE ***
         self.optimizer.zero_grad()
         loss.backward()
         utils.clip_grad_value_(self.q_net.parameters(), self.grad_norm_clipping)
         self.optimizer.step()
-        
+
         self.learning_rate_scheduler.step()
 
         return {'Training Q Loss': ptu.to_numpy(loss)}

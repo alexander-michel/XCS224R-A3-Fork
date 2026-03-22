@@ -83,20 +83,24 @@ class CQLCritic(BaseCritic):
         # HINT: Obtain DQN loss, qa_t_values, q_t_values using self.dqn_loss
         # HINT: After calculating cql_loss, augment the loss appropriately
         # HINT: torch.logsumexp and torch.mean may be useful for calculating the cql_loss
-        
+
         # *** START CODE HERE ***
+        loss, qa_t_values, q_t_values = self.dqn_loss(ob_no,ac_na,next_ob_no,reward_n,terminal_n)
+        q_t_logsumexp = torch.logsumexp(qa_t_values, dim=1)
+        cql_loss = (q_t_logsumexp - q_t_values).mean()
+        loss += self.cql_alpha*cql_loss
         # *** END CODE HERE ***
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
 
-        
+
         info = {'Training Loss': ptu.to_numpy(loss)}
         # Note: the following will be failing until you implement above parts
         info['CQL Loss'] = ptu.to_numpy(cql_loss)
         info['Data q-values'] = ptu.to_numpy(q_t_values).mean()
         info['OOD q-values'] = ptu.to_numpy(q_t_logsumexp).mean()
-        
+
         self.learning_rate_scheduler.step()
 
         return info

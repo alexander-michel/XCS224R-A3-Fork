@@ -1,69 +1,69 @@
-echo "2b - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "1a-8-hidden) iql_zeta_0.2_rnd_PointmassEasy-v0"
-echo " "
-echo "python run_iql.py --env_name PointmassEasy-v0 \
---exp_name iql_zeta_0.2_rnd --use_rnd \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.2"
+# echo "2b - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# echo "1a-8-hidden) iql_zeta_0.2_rnd_PointmassEasy-v0"
+# echo " "
+# echo "python run_iql.py --env_name PointmassEasy-v0 \
+# --exp_name iql_zeta_0.2_rnd --use_rnd \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.2"
 
-python run_iql.py --env_name PointmassEasy-v0 \
---exp_name iql_zeta_0.2_rnd --use_rnd \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.2
-
-
-echo "2b - 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "1a-9-hidden) iql_zeta_0.9_rnd_PointmassEasy-v0"
-echo " "
-echo "python run_iql.py --env_name PointmassEasy-v0 \
---exp_name iql_zeta_0.9_rnd --use_rnd \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.9"
-python run_iql.py --env_name PointmassEasy-v0 \
---exp_name iql_zeta_0.9_rnd --use_rnd \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.9
+# python run_iql.py --env_name PointmassEasy-v0 \
+# --exp_name iql_zeta_0.2_rnd --use_rnd \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.2
 
 
-echo "2c - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "1a-10-hidden) iql_zeta_0.9_rnd_PointmassMedium-v0"
-echo " "
-echo "python run_iql.py --env_name PointmassMedium-v0 \
---exp_name iql_zeta_0.9_rnd --use_rnd \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.9"    
-python run_iql.py --env_name PointmassMedium-v0 \
---exp_name iql_zeta_0.9_rnd --use_rnd \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.9
+# echo "2b - 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# echo "1a-9-hidden) iql_zeta_0.9_rnd_PointmassEasy-v0"
+# echo " "
+# echo "python run_iql.py --env_name PointmassEasy-v0 \
+# --exp_name iql_zeta_0.9_rnd --use_rnd \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.9"
+# python run_iql.py --env_name PointmassEasy-v0 \
+# --exp_name iql_zeta_0.9_rnd --use_rnd \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.9
 
 
-echo "2c - 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "1a-11-hidden) iql_zeta_0.9_random_PointmassMedium-v0"
-echo " "
-echo "--exp_name iql_zeta_0.9_random  \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.9"
-python run_iql.py --env_name PointmassMedium-v0 \
---exp_name iql_zeta_0.9_random  \
---num_exploration_steps=20000 \
---unsupervised_exploration \
---awac_lambda=1 \
---iql_expectile=0.9
+# echo "2c - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# echo "1a-10-hidden) iql_zeta_0.9_rnd_PointmassMedium-v0"
+# echo " "
+# echo "python run_iql.py --env_name PointmassMedium-v0 \
+# --exp_name iql_zeta_0.9_rnd --use_rnd \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.9"    
+# python run_iql.py --env_name PointmassMedium-v0 \
+# --exp_name iql_zeta_0.9_rnd --use_rnd \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.9
+
+
+# echo "2c - 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# echo "1a-11-hidden) iql_zeta_0.9_random_PointmassMedium-v0"
+# echo " "
+# echo "--exp_name iql_zeta_0.9_random  \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.9"
+# python run_iql.py --env_name PointmassMedium-v0 \
+# --exp_name iql_zeta_0.9_random  \
+# --num_exploration_steps=20000 \
+# --unsupervised_exploration \
+# --awac_lambda=1 \
+# --iql_expectile=0.9
 
 #3b
 echo "3b - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"

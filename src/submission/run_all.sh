@@ -66,29 +66,29 @@
 # --iql_expectile=0.9
 
 #3b
-echo "3b - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "2a-3-hidden) cql_alpha_0.0_rnd_PointmassHard-v0"
-echo " "
-echo "python run_cql.py --env_name PointmassHard-v0 \
---exp_name cql_alpha_0.0_rnd \
---use_rnd --unsupervised_exploration \
---offline_exploitation --cql_alpha=0.0"
-python run_cql.py --env_name PointmassHard-v0 \
---exp_name cql_alpha_0.0_rnd \
---use_rnd --unsupervised_exploration \
---offline_exploitation --cql_alpha=0.0
+# echo "3b - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# echo "2a-3-hidden) cql_alpha_0.0_rnd_PointmassHard-v0"
+# echo " "
+# echo "python run_cql.py --env_name PointmassHard-v0 \
+# --exp_name cql_alpha_0.0_rnd \
+# --use_rnd --unsupervised_exploration \
+# --offline_exploitation --cql_alpha=0.0"
+# python run_cql.py --env_name PointmassHard-v0 \
+# --exp_name cql_alpha_0.0_rnd \
+# --use_rnd --unsupervised_exploration \
+# --offline_exploitation --cql_alpha=0.0
 
-echo "3b - 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "2a-4-hidden) cql_alpha_0.1_rnd_PointmassHard-v0"
-echo " "
-echo "python run_cql.py --env_name PointmassHard-v0 \
---exp_name cql_alpha_0.1_rnd \
---use_rnd --unsupervised_exploration \
---offline_exploitation --cql_alpha=0.1"
-python run_cql.py --env_name PointmassHard-v0 \
---exp_name cql_alpha_0.1_rnd \
---use_rnd --unsupervised_exploration \
---offline_exploitation --cql_alpha=0.1
+# echo "3b - 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+# echo "2a-4-hidden) cql_alpha_0.1_rnd_PointmassHard-v0"
+# echo " "
+# echo "python run_cql.py --env_name PointmassHard-v0 \
+# --exp_name cql_alpha_0.1_rnd \
+# --use_rnd --unsupervised_exploration \
+# --offline_exploitation --cql_alpha=0.1"
+# python run_cql.py --env_name PointmassHard-v0 \
+# --exp_name cql_alpha_0.1_rnd \
+# --use_rnd --unsupervised_exploration \
+# --offline_exploitation --cql_alpha=0.1
 
 #3c May need to run 3 times
 echo "3c - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
@@ -103,6 +103,17 @@ python run_cql.py --env_name PointmassHard-v0 \
 --unsupervised_exploration \
 --offline_exploitation --cql_alpha=0.1
 
+echo "3c - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "2a-5-hidden) cql_alpha_0.1_random_PointmassHard-v0"
+echo " "
+echo "python run_cql.py --env_name PointmassHard-v0 \
+--exp_name cql_alpha_0.1_random \
+--unsupervised_exploration \
+--offline_exploitation --cql_alpha=0.1"
+python run_cql.py --env_name PointmassHard-v0 \
+--exp_name cql_alpha_0.1_random \
+--unsupervised_exploration \
+--offline_exploitation --cql_alpha=0.1
 
 
 

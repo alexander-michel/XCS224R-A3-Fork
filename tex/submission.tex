@@ -149,14 +149,6 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
 
   % TODO: Run a 3rd seed for alpha=0.1 (RND) and add its eval_last_traj.png + row here.
 
-  % TODO: Answer -- What does alpha=0.0 signify in terms of the CQL algorithm?
-  % (With alpha=0.0 the CQL regularizer is disabled and the algorithm reduces
-  % to standard DQN with no conservative penalty on OOD actions.)
-
-  % TODO: Explain the performance difference between alpha=0.0 and alpha=0.1.
-  % Hint: alpha=0.1 penalizes overestimation of OOD Q-values, leading to more
-  % conservative and reliable value estimates in the offline setting.
-
   % ### END CODE HERE ###
 \end{answer}
 % <SCPD_SUBMISSION_TAG>_2b
@@ -205,11 +197,6 @@ instructions to regenerate this handout with your typeset \LaTeX{} solutions.
   \end{center}
 
   % TODO: Add 3rd run image for alpha=0.1 random here.
-
-  % TODO: Write 2-3 sentences: explain the performance gap between RND and
-  % random exploration for offline CQL on PointmassHard-v0.
-  % Hint: same argument as 1c -- RND provides better state coverage in the
-  % offline dataset, which directly improves the quality of the learned policy.
 
   % ### END CODE HERE ###
 \end{answer}

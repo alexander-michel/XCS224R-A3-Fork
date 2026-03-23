@@ -90,26 +90,40 @@
 # --use_rnd --unsupervised_exploration \
 # --offline_exploitation --cql_alpha=0.1
 
-#3c May need to run 3 times
-echo "3c - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "2a-5-hidden) cql_alpha_0.1_random_PointmassHard-v0"
-echo " "
-echo "python run_cql.py --env_name PointmassHard-v0 \
---exp_name cql_alpha_0.1_random \
---unsupervised_exploration \
---offline_exploitation --cql_alpha=0.1"
+#3b - cql_alpha_0.0_rnd: need 2 more complete runs
+echo "2b - cql_alpha_0.0_rnd run 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+python run_cql.py --env_name PointmassHard-v0 \
+--exp_name cql_alpha_0.0_rnd \
+--use_rnd --unsupervised_exploration \
+--offline_exploitation --cql_alpha=0.0
+
+echo "2b - cql_alpha_0.0_rnd run 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+python run_cql.py --env_name PointmassHard-v0 \
+--exp_name cql_alpha_0.0_rnd \
+--use_rnd --unsupervised_exploration \
+--offline_exploitation --cql_alpha=0.0
+
+#3b - cql_alpha_0.1_rnd: need 2 more complete runs
+echo "2b - cql_alpha_0.1_rnd run 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+python run_cql.py --env_name PointmassHard-v0 \
+--exp_name cql_alpha_0.1_rnd \
+--use_rnd --unsupervised_exploration \
+--offline_exploitation --cql_alpha=0.1
+
+echo "2b - cql_alpha_0.1_rnd run 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+python run_cql.py --env_name PointmassHard-v0 \
+--exp_name cql_alpha_0.1_rnd \
+--use_rnd --unsupervised_exploration \
+--offline_exploitation --cql_alpha=0.1
+
+#3c - cql_alpha_0.1_random: need 2 more complete runs
+echo "2c - cql_alpha_0.1_random run 2 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 python run_cql.py --env_name PointmassHard-v0 \
 --exp_name cql_alpha_0.1_random \
 --unsupervised_exploration \
 --offline_exploitation --cql_alpha=0.1
 
-echo "3c - 1 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-echo "2a-5-hidden) cql_alpha_0.1_random_PointmassHard-v0"
-echo " "
-echo "python run_cql.py --env_name PointmassHard-v0 \
---exp_name cql_alpha_0.1_random \
---unsupervised_exploration \
---offline_exploitation --cql_alpha=0.1"
+echo "2c - cql_alpha_0.1_random run 3 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 python run_cql.py --env_name PointmassHard-v0 \
 --exp_name cql_alpha_0.1_random \
 --unsupervised_exploration \
